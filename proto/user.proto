@@ -1,0 +1,46 @@
+syntax="proto3";
+
+option go_package="gen/go";
+
+import "google/api/annotations.proto";
+service User {
+  rpc Register(RegisterRequest)returns(RegisterResponse){
+    option(google.api.http) = {
+      post:"/users/register"
+      body:"*"
+    };
+  }
+  rpc Login(LoginRequest)returns(LoginResponse){
+    option(google.api.http) = {
+      post:"/users/login"
+      body:"*"
+    };
+  }
+  rpc CheckToken(TokenRequest)returns(TokenResponse){
+    option(google.api.http)={
+      post:"/users/checktoken"
+      body:"*"
+    };
+  }
+}
+message RegisterRequest{
+  string email=1 [json_name="email"];
+  string password=2 [json_name="password"];
+}
+message RegisterResponse{
+  int64 id = 1 [json_name="id"];
+}
+message LoginRequest{
+  string email=1 [json_name="email"];
+  string password=2 [json_name="password"];
+}
+message LoginResponse{
+  string token = 1 [json_name="token"];
+}
+message TokenRequest{
+  string token = 1 [json_name="token"];
+}
+message TokenResponse{
+  bool isAuthenticated=1[json_name="is_authenticated"];
+  int64 user_id = 2 [json_name="user_id"];
+}

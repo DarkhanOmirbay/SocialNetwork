@@ -1,0 +1,64 @@
+syntax="proto3";
+option go_package="gen/go";
+import "google/api/annotations.proto";
+
+service Post{
+  rpc CreatePost(CreatePostRequest)returns(CreatePostResponse){
+    option(google.api.http) = {
+      post:"/posts/create"
+      body:"*"
+    };
+  }
+  rpc ReadPost(ReadPostRequest)returns(ReadPostResponse){
+    option(google.api.http) = {
+      post:"/posts/get"
+      body:"*"
+    };
+  }
+  rpc UpdatePost(UpdatePostRequest)returns(UpdatePostResponse){
+    option(google.api.http)={
+      post:"/posts/update"
+      body:"*"
+    };
+  }
+  rpc DeletePost(DeletePostRequest)returns(DeletePostResponse){
+    option(google.api.http)={
+      post:"/posts/delete"
+      body:"*"
+    };
+  }
+}
+message PostInfo{
+  int64 post_id = 1[json_name="post_id"];
+  int64 user_id=2;
+  string text = 3;
+}
+message CreatePostRequest{
+  string token=1 [json_name="token"];
+  string text = 2 [json_name="text"];
+}
+message CreatePostResponse{
+  int64 post_id = 1 [json_name="post_id"];
+}
+message ReadPostRequest{
+  string token = 1 [json_name="token"];
+  int64 post_id= 2 [json_name="post_id"];
+}
+message ReadPostResponse{
+PostInfo post = 1[json_name="post"];
+}
+message UpdatePostRequest{
+  string token = 1 [json_name="token"];
+  int64 post_id= 2 [json_name="post_id"];
+  string new_text=3[json_name="new_text"];
+}
+message UpdatePostResponse{
+  string msg = 1[json_name="message"];
+}
+message DeletePostRequest{
+  string token = 1 [json_name="token"];
+  int64 post_id= 2 [json_name="post_id"];
+}
+message DeletePostResponse{
+  string msg = 1[json_name="message"];
+}
